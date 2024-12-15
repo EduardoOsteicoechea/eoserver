@@ -43,10 +43,8 @@ app.MapGet("/crintt", () =>
 });
 
 app.MapGet("/bimapi", () =>
-{
-   string html = new CrinttPage("Crintt.com", new CrinttPageComponents()).Print();
-   
-   return Results.Content(html, "text/json");
+{   
+   return Results.Content(new BimApi().Content, "text/json");
 });
 
 app.Run();
