@@ -1,10 +1,23 @@
 using eoserver;
 
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-app.UseStaticFiles();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-//app.UseHttpsRedirection();
+builder.Services.AddCors(options =>
+{
+   options.AddDefaultPolicy(
+       builder =>
+       {
+          builder
+         .AllowAnyOrigin()
+         .AllowAnyMethod()
+         .AllowAnyHeader();
+       });
+});
+
+WebApplication app = builder.Build();
+
+app.UseCors();
+app.UseStaticFiles();
 
 app.MapGet("", () =>
 {
@@ -31,46 +44,26 @@ app.MapGet("", () =>
       </body>                                                                                                                                     
       </html> 
    ";
-   
+
    return Results.Content(html, "text/html");
 });
 
 app.MapGet("/crintt", () =>
 {
    string html = new CrinttPage("Crintt.com", new CrinttPageComponents()).Print();
-   
+
    return Results.Content(html, "text/html");
 });
 
 app.MapGet("/bimapi", () =>
-{   
+{
    return Results.Content(new BimApi().Content, "text/json");
 });
 
+app.MapGet("/bible", () =>
+{
+   Passage passage = new Passage("john.3.16","God is good");
+   return Results.Ok(passage);
+});
+
 app.Run();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//using eomserver;
-
-//var builder = WebApplication.CreateBuilder(args);
-
-//var app = builder.Build();
-
-//app.MapGet("", () =>
-//{                                                                                                                                                      return Results.Content("<h1>thanks lord</h1>", "text/html");
-//});                                                                                                                                                                                                                                                                                                     app.MapGet("/crintt", () =>
-//{                                                                                                                                                      string html = new CrinttPage("Crintt.com", new CrinttPageComponents()).Print();
-//                                                                                                                                                       return Results.Content("hello", "text/plain");
-//});                                                                                                                                                                                                                                                                                                     app.Run();
