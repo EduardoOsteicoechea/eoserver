@@ -22,13 +22,15 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           hosts: ${{ secrets.EC2_IP_ADDRESS }} 
-          username: ubuntu # Replace with your EC2 username
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # Store your private key as a secret
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/eoserver 
-            git fetch origin
-            git reset --hard origin/main
-            screen -dmS my_screen /path/to/your/script.sh 
+            sudo git fetch origin
+            sudo git reset --hard origin/main
+            sudo ps aux | grep eoserver | awk '{print $2}' | xargs sudo kill -9
+            sudo pkill -f "dotnet run"
+            sudo screen -dmS oeserver dotnet run
 
       - name: Wait for deployment
         run: |
