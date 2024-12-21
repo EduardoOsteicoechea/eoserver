@@ -10,7 +10,7 @@
          "launchUrl": "",
          "applicationUrl": "https://eduardoos.com:8080",
          "environmentVariables": { "ASPNETCORE_ENVIRONMENT": "Production" }
-      }
+      } 
       
       //"http": {
       //   "commandName": "Project",
