@@ -20,7 +20,7 @@ jobs:
 
       - name: Connect to EC2 instance
         uses: appleboy/ssh-action@master
-        with:
+        with: 
           hosts: ${{ secrets.EC2_IP_ADDRESS }} 
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
